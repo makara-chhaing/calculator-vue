@@ -1,0 +1,7 @@
+Please note: 
+
+index.html is the home page which leads to another pages in "subpages" folder.
+
+data folder stores json file
+
+styles folder stores style.css which has all style needed for every page in this project.

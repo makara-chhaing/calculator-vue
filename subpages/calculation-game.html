@@ -1,0 +1,166 @@
+<html>
+
+<head>
+    <!-- use exteral CSS for styling -->
+    <link rel="stylesheet" href="../styles/style.css">
+
+    <!-- use vue frameword -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- game page start from here -->
+    <div id="calgame">
+
+        <!-- this class is for designing purpose in style.css -->
+        <div class="gamecontainer">
+            <!-- Only one stage can be true and a time -->
+
+            <!-- introduction stage of the game this is true when the game just start -->
+            <div v-if="introStage">
+
+                <!-- get the title from json file and set as title of the quiz -->
+                <h1>Welcome to a Mini {{title}}</h1>
+                <p><b>
+                        This is kind of quiz about simple calculation!!! Are you ready?
+                </b></p>
+
+                <!-- v-on:click button to start the quiz -->
+                <div class="btnc" @click="startQuiz" onselectstart="return false">Yes, I am! Let's Start Level 1</div>
+            </div>
+            
+            <!-- this condition is true when user click on start quiz button -->
+            <div v-if="questionStage">
+
+                <!-- use question template and handle question and anser according to index of the question from json file -->
+                <question :question="questions[currentQuestion]" v-on:answer="handleAnswer"
+                    :question-number="currentQuestion+1"></question>
+            </div>
+            
+            <!-- this stage is true when questionstage finishes -->
+            <div v-if="resultsStage">
+
+                <!-- display number of correctness of ansers compare to amount of questions and show percentage accordingly  -->
+                <p>You got {{correct}} right out of {{questions.length}} questions. Your percentage is {{perc}}%.</p>
+                <p>Whatsoever score!!! Great job Level 2 is comming soon...</p>
+
+                <!-- back to menu link. It is too complex to use vue route since this proect go back and forth
+                between webpages-->
+                <a class="btnc" href="../index.html">Back To Menu</a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Vue tends to better here rather than using external javascript file which tended to cause unexpected error -->
+    <script>
+
+        //  quizData is a constant the contains JSON file which is the same as the one
+        //  you can find on /data/doc.json
+        const quizData = 'https://api.myjson.com/bins/lda6e';
+
+        //create new vue and put in app variable as constant for future use
+        const app = new Vue({
+            //id that this vue refer to
+            el: '#calgame',
+
+            // data to return
+            data() {
+                return {
+                    introStage: false,
+                    questionStage: false,
+                    resultsStage: false,
+                    title: '',
+                    questions: [],
+                    currentQuestion: 0,
+                    answers: [],
+                    correct: 0,
+                    perc: null
+                }
+            },
+
+            created() {
+                //use vue Data fetching to fetch json file and assign value to variables inside "data" from respond
+                fetch(quizData)
+                    .then(res => res.json())
+                    .then(res => {
+                        this.title = res.title;
+                        this.questions = res.questions;
+                        this.introStage = true;
+                    })
+            },
+            //create functions
+            methods: {
+                //start the quiz by only make the questionStage true
+                startQuiz() {
+                    this.introStage = false;
+                    this.questionStage = true;
+                },
+
+                //handle answer
+                handleAnswer(e) {
+                    //save answer that user click
+                    this.answers[this.currentQuestion] = e.answer;
+
+                    //if the last question
+                    if ((this.currentQuestion + 1) === this.questions.length) {
+                        //call handle result page
+                        this.handleResults();
+
+                        //display result stage
+                        this.questionStage = false;
+                        this.resultsStage = true;
+                    } 
+                    //otherwise move to the next question
+                    else {
+                        this.currentQuestion++;
+                    }
+                },
+
+                //handle the result page
+                handleResults() {
+
+                    //calculate correct answers
+                    this.questions.forEach((a, index) => {
+                        if (this.answers[index] === a.answer) this.correct++;
+                    });
+
+                    //save the percentage of correctness as string by round 2 decimal places
+                    this.perc = ((this.correct / this.questions.length) * 100).toFixed(2);
+                }
+            }
+        })
+
+        //create a vue component to handle all questions in question stage
+        Vue.component('question', {
+            //create template for MCQ
+            template: `<div><strong>Question {{ questionNumber }} &emsp;</strong><strong>{{ question.text }} &ensp;</strong><br><p>Answer: </p><br><div v-for="(mcanswer,index) in question.answers"><input class="radio1" type="radio" :id="'answer'+index" name="currentQuestion" v-model="answer" :value="mcanswer"><label :for="'answer'+index" class="btnc">{{mcanswer}}</label><br/></div><div class="btnc" @click="submitAnswer" onselectstart="return false">Answer</></div>`,
+            data() {
+                return {
+                    answer: ''
+                }
+            },
+
+            //prperties that needed
+            props: ['question', 'question-number'],
+
+            methods: {
+
+                //create a function when on:click the submit answer button
+                submitAnswer: function () {
+                    //test to see if answer is not equal to null or empty string
+                    if (this.answer !== null && this.answer !== "") {
+                        //recent add answer to answer array 
+                        this.$emit('answer', {
+                            answer: this.answer
+                        });
+                        //reset value of answer to null
+                        this.answer = null;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

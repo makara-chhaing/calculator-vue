@@ -1,0 +1,225 @@
+
+/* general rule of padding and margin */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/* give color to the background of webpages*/
+body {
+	background-color: #6C61A4;
+}
+
+/* calculator app design */
+#app {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+}
+
+/* use grid layout for design and set 7 now and 4 collums*/
+.calculator {
+	display: grid;
+	grid-template-rows: repeat(7, minmax(60px, auto));
+	grid-template-columns: repeat(4, 60px);
+	grid-gap: 12px;
+	padding: 35px;
+	font-weight: 300;
+    font-size: 18px;
+	background-color: #CFCCE1;
+	border-radius: 10px;
+	box-shadow: 0px 3px 80px -30px #e9a2e2bd;
+}
+
+/* add style to buttons in calculator */
+.btnc,
+.zero {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #484848;
+	background-color: #fff;
+	border-radius: 20px;
+}
+
+/* give the portion of grid to display-log and answer */
+.display,
+.answer {
+	grid-column: 1 / 5;
+	display: flex;
+	align-items: center;
+}
+
+/* add style and color to display */
+.display {
+
+    color: #d483cc;
+    border-top: 1px solid #e1e1e1;
+	border-bottom: 1px solid #e1e1e1;
+	margin-bottom: 15px;
+	overflow: hidden;
+    text-overflow: clip;
+    
+}
+#backspace {
+    color: #333
+}
+
+/* give color to answer text */
+.answer {
+	font-weight: 500;
+	color: #e334d2;
+	font-size: 55px;
+	height: 65px;
+}
+
+/* portion of grid  */
+.zero {
+	grid-column: 1 / 3;
+}
+
+/* style for symbol button */
+.operator {
+	background-color: #fff;
+	color: #333;
+}
+
+/* add hover effect to all buttons */
+.operator:hover {
+	background-color: #7469A8;
+	color: #fff;
+}
+.btnc:hover{
+	background-color: #7469A8;
+	color: #fff;
+}
+.zero:hover{
+	background-color:#7469A8;
+	color: #fff;
+}
+
+/* style for index.html */
+#app2{
+    display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+}
+
+/* give style to container and menu box  */
+.container .menu{
+    padding: 100px;
+	font-weight: 300;
+    font-size: 18px;
+	background-color: rgba(255, 255, 255, 0.788);
+    border-radius: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+	box-shadow: 0px 3px 80px -30px #a2bbe9bd;
+}
+
+/* add style to buttons  */
+.btn{
+  display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #484848;
+	background-color: #fff;
+	border-radius: 20px;
+    margin: 50px;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+/* add hover effect to button  */
+.btn:hover{
+	background-color: #7469A8;
+	color: #fff;
+}
+
+/* add style to calculation-game  */
+#app3, #calgame {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  text-align: center;
+	height: 100vh;
+	width: 100vw;
+}
+
+/* add color to text inside attribute  */
+a{
+  color: #484848;
+  text-decoration: none; 
+}
+
+/* add hover effect to attribute  */
+a:hover{
+	background-color: #7469A8;
+	color: #fff;
+}
+
+/* give style to game container  */
+.gamecontainer{
+    padding: 30px;
+	font-weight: 300;
+    font-size: 18px;
+	background-color: rgba(255, 255, 255, 0.788);
+    border-radius: 20px;
+    padding-left: 200px;
+    padding-right: 200px;
+	box-shadow: 0px 3px 80px -30px #a2bbe9bd;
+}
+
+/* give style to score and game state */
+.scoring{
+  text-align: left;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 100px;
+  padding-left: 100px;
+  background-color: #bac8de;
+  border-radius: 20px;
+  margin: 5px;
+}
+.gamestate{
+  margin: 5px;
+  padding: 10px;
+  
+  padding-right: 100px;
+  padding-left: 100px;
+  background-color: #bac8de;
+  border-radius: 20px;
+}
+.gamebody{
+  margin: 5px;
+  padding: 10px;
+  padding-right: 100px;
+  padding-left: 100px;
+  background-color: #bac8de;
+  border-radius: 20px;
+}
+
+/* change the look of radio input (the answer to choose in questionStage) */
+input[type=radio] {
+    display: none;
+}
+input[type=radio]:checked ~ label{
+  background-color: #7469A8;
+	color: #fff;
+}
+
+
+ 

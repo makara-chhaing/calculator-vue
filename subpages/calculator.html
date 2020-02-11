@@ -1,0 +1,153 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="../styles/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+
+  <div id="app">
+    <!--       make a container for calculator -->
+    <div class="container">
+      <!--         calculator block which user can not select the symbols and number in buttons -->
+      <div class="calculator" onselectstart="return false">
+        <!--           start giving id and or class to each numbers or symbols as well as v-on:click event -->
+        <div class="answer">{{ answer || 0}}</div>
+        <div class="display">{{ logList + current || 0 }}</div>
+        <div @click="clear" id="clear" class="btnc operator">C</div>
+        <div @click="sign" id="sign" class="btnc operator">+/-</div>
+        <div @click="percent" id="percent" class="btnc operator">
+          %
+        </div>
+        <div @click="divide" id="divide" class="btnc operator">
+          /
+        </div>
+        <div @click="append('7')" id="n7" class="btnc">7</div>
+        <div @click="append('8')" id="n8" class="btnc">8</div>
+        <div @click="append('9')" id="n9" class="btnc">9</div>
+        <div @click="times" id="times" class="btnc operator">*</div>
+        <div @click="append('4')" id="n4" class="btnc">4</div>
+        <div @click="append('5')" id="n5" class="btnc">5</div>
+        <div @click="append('6')" id="n6" class="btnc">6</div>
+        <div @click="minus" id="minus" class="btnc operator">-</div>
+        <div @click="append('1')" id="n1" class="btnc">1</div>
+        <div @click="append('2')" id="n2" class="btnc">2</div>
+        <div @click="append('3')" id="n3" class="btnc">3</div>
+        <div @click="plus" id="plus" class="btnc operator">+</div>
+        <div @click="append('0')" id="n0" class="zero">0</div>
+        <div @click="dot" id="dot" class="btnc">.</div>
+        <div @click="equal" id="equal" class="btnc operator">=</div>
+      </div>
+    </div>
+  </div>
+  <script>
+
+    // create a new vue
+    var calculator_js = new Vue({
+      // target id is app in html
+      el: "#app",
+      // data to return
+      data() {
+        return {
+          current: '',
+          answer: '',
+          logList: '',
+          operator: null,
+          previous: null,
+          operatorClicked: false,
+        }
+      },
+      // create methods upon click event
+      methods: {
+        // to clear current typing
+        clear() {
+          this.current = '';
+          this.answer = '';
+          this.logList = '';
+        },
+        // to make positive or negative out of the original opposite value
+        sign() {
+          this.current = this.current.charAt(0) === '-' ?
+            //return the sring without the first character
+            this.current.slice(1) :
+            // otherwise return the string with minus sign appended
+            `-${this.current}`;
+        },
+        //get the percentage of the number
+        percent() {
+          // convert the string to float and divide by 100 and cast back to string
+          if (this.current != '') {
+            this.current = `${parseFloat(this.current) / 100}`;
+          }
+        },
+        //can append number in
+        append(number) {
+          //test if the operator is clicks so this clear the value and change state of operatorClicked to false
+          if (this.operatorClicked) {
+            this.current = '';
+            this.operatorClicked = false;
+          }
+          //string concatenation current with new number types in
+          this.current = `${this.current}${number}`;
+        },
+        addToLog(operator) {
+          if (this.operatorClicked == false) {
+            this.logList += `${this.current} ${operator} `;
+            this.current = "";
+            this.operatorClicked = true;
+          }
+        },
+        //at dot sign in the number
+        dot() {
+          //make sure to add dot only once
+          if (this.current.indexOf('.') === -1) {
+            this.append('.');
+          }
+        },
+        //set the vlaue to previous one
+        plus() {
+          //it takes 2 values and return the added value
+          this.operator = (a, b) => a + b;
+          //set the vlaue to previous one
+          this.addToLog('+');
+        },
+        minus() {
+          //it takes 2 values and return the minus value
+          this.operator = (a, b) => a - b;
+
+          //set the vlaue to previous one
+          this.addToLog('-');
+        },
+        times() {
+          //it takes 2 values and return the multiplied value
+          this.operator = (a, b) => a * b;
+
+          //set the vlaue to previous one
+          this.addToLog('*');
+        },
+        divide() {
+          //it takes 2 values and return the divided value
+          this.operator = (a, b) => a / b;
+
+          //set the vlaue to previous one
+          this.addToLog('/');
+        },
+        equal() {
+          //parse argument to float and contatenant back to string
+          if (this.operatorClicked == false) {
+            this.answer = `${this.operator(
+              parseFloat(this.logList),
+              parseFloat(this.current))}`;
+            this.current = '';
+            this.logList = this.answer;
+          }
+
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

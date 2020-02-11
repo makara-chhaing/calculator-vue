@@ -1,0 +1,28 @@
+<html>
+
+<head>
+  <!-- add external CSS -->
+  <link rel="stylesheet" href="styles/style.css">
+
+  <!-- use vue framework -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<!--   body of html -->
+<body>
+  <!--     create an calculator app -->
+  <div id="app2">
+    <!-- button for next pages are here in the container class which is useful for design -->
+    <div class="container" onselectstart="return false">
+      <div class="menu">
+
+        <!-- open subpages when click. Each file will be explained in details what those pages do -->
+        <div @click="calculator" id="calculator_layout" class="btn"><a href="subpages/calculator.html">Calculator</a></div>
+        <div @click="game" id="game_layout" class="btn"><a href="subpages/calculation-game.html">Calculation Game</a></div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
